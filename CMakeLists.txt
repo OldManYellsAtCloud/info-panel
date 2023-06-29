@@ -22,6 +22,8 @@ set(PROJECT_SOURCES
         dbustest.h
         brightness.h
         brightness.cpp
+        config.h
+        config.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
