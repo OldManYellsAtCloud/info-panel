@@ -11,7 +11,7 @@ static const std::string CONFIG_NAME {"info-panel.cfg"};
 config::config()
 {
     std::string homeFolder {getenv("HOME")};
-    if (homeFolder == NULL) {
+    if (&homeFolder == NULL) {
         LOG(LOG_ERR, "Could not determine home folder. Using /tmp folder for config.");
         homeFolder = "/tmp";
     }
@@ -81,28 +81,24 @@ void config::parseLine(const std::string &line)
     int delimIndex = line.find("=");
     std::string key = line.substr(0, delimIndex);
     std::string value = line.substr(delimIndex + 1, line.length());
-    std::cout << "key: " << key << ", value: " << value << std::endl;
 
     try {
         if (value.find(".") == std::string::npos) { // try to parse it as int if there is no decimal separator
             int i = std::stoi(value);
             intDict.insert({key, i});
-            std::cout << "int value" << std::endl;
         } else { // try to parse it as float, if there is a decimal separator
             float f = std::stof(value);
             floatDict.insert({key, f});
-            std::cout << "float value" << std::endl;
         }
     } catch (std::invalid_argument const &ex) { // if parsing as number fails, keep it as string
         stringDict.insert({key, value});
-        std::cout << "string value" << std::endl;
     }
 }
 
 void config::saveThread()
 {
     std::string homeFolder {getenv("HOME")};
-    if (homeFolder == NULL) {
+    if (&homeFolder == NULL) {
         LOG(LOG_ERR, "Could not determine home folder. Using /tmp folder for config.");
         homeFolder = "/tmp";
     }

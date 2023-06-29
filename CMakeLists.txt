@@ -18,8 +18,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
-        dbustest.cpp
-        dbustest.h
+        dbusListener.cpp
+        dbusListener.h
         brightness.h
         brightness.cpp
         config.h
