@@ -24,6 +24,8 @@ set(PROJECT_SOURCES
         brightness.cpp
         config.h
         config.cpp
+        logger.h
+        logger.cpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

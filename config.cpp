@@ -4,15 +4,17 @@
 #include <unistd.h>
 #include <thread>
 #include <limits>
-
-// logging only
-#include <iostream>
+#include "logger.h"
 
 static const std::string CONFIG_NAME {"info-panel.cfg"};
 
 config::config()
 {
     std::string homeFolder {getenv("HOME")};
+    if (homeFolder == NULL) {
+        LOG(LOG_ERR, "Could not determine home folder. Using /tmp folder for config.");
+        homeFolder = "/tmp";
+    }
     std::string configFolder {homeFolder + "/.config"};
     std::string fullConfigPath {configFolder + "/" + CONFIG_NAME};
 
@@ -100,6 +102,10 @@ void config::parseLine(const std::string &line)
 void config::saveThread()
 {
     std::string homeFolder {getenv("HOME")};
+    if (homeFolder == NULL) {
+        LOG(LOG_ERR, "Could not determine home folder. Using /tmp folder for config.");
+        homeFolder = "/tmp";
+    }
     std::string configFolder {homeFolder + "/.config"};
     std::string fullConfigPath {configFolder + "/" + CONFIG_NAME};
     std::fstream configFile;
