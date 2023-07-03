@@ -4,6 +4,7 @@
 #include "config.h"
 
 #include <unistd.h>
+#include <QMessageBox>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,12 +36,18 @@ void MainWindow::on_brightnessSlider_valueChanged(int value)
 
 void MainWindow::on_restartButton_released()
 {
-    execl("/sbin/shutdown", "shutdown", "-r", "now", (char *)0);
+    QMessageBox::StandardButton response = QMessageBox::question(this, "Reboot", "Reboot?", QMessageBox::Yes|QMessageBox::No);
+    if (response == QMessageBox::Yes) {
+        execl("/sbin/shutdown", "shutdown", "-r", "now", (char *)0);
+    }
 }
 
 
 void MainWindow::on_shutDownButton_released()
 {
-    execl("/sbin/shutdown", "shutdown", "-P", "now", (char *)0);
+    QMessageBox::StandardButton response = QMessageBox::question(this, "Shut down", "Shut down?", QMessageBox::Yes|QMessageBox::No);
+    if (response == QMessageBox::Yes) {
+        execl("/sbin/shutdown", "shutdown", "-P", "now", (char *)0);
+    }
 }
 
