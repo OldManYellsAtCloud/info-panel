@@ -29,6 +29,9 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+
+    qt_standard_project_setup()
+
     qt_add_executable(info-panel
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
