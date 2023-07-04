@@ -9,7 +9,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(sdbus-c++)
 
 set(PROJECT_SOURCES
@@ -27,40 +27,21 @@ set(PROJECT_SOURCES
         logger.cpp
 )
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+qt_standard_project_setup()
 
-    qt_standard_project_setup()
+qt_add_executable(info-panel
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+)
 
-    qt_add_executable(info-panel
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-# Define target properties for Android with Qt 6 as:
-#    set_property(TARGET info-panel APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
-#                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
-# For more information, see https://doc.qt.io/qt-6/qt-add-executable.html#target-creation
-else()
-    if(ANDROID)
-        add_library(info-panel SHARED
-            ${PROJECT_SOURCES}
-        )
-# Define properties for Android with Qt 5 after find_package() calls as:
-#    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
-    else()
-        add_executable(info-panel
-            ${PROJECT_SOURCES}
-        )
-    endif()
-endif()
 
-target_link_libraries(info-panel PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(info-panel PRIVATE Qt6::Widgets)
 
 install(TARGETS info-panel
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(info-panel)
-endif()
+qt_finalize_executable(info-panel)
+
 
 target_link_libraries(info-panel PRIVATE SDBusCpp::sdbus-c++)
